@@ -229,30 +229,7 @@
             transform: none;
         }
 
-        #backToTop {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 45px;
-            height: 45px;
-            background-color: var(--color-accent);
-            color: var(--color-white);
-            border: none;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            z-index: 999;
-            transition: var(--transition);
-        }
 
-        #backToTop:hover {
-            background-color: var(--color-navy);
-            transform: translateY(-3px);
-        }
 
         #loader {
             position: fixed;
@@ -1233,8 +1210,6 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" title="Go to top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
 
 
     <!-- WhatsApp Floating Button -->
@@ -1294,15 +1269,6 @@
 
         // Scroll Events
         window.addEventListener('scroll', () => {
-
-
-            // Back to Top Button
-            const btt = document.getElementById('backToTop');
-            if (window.scrollY > 500) {
-                btt.style.display = 'flex';
-            } else {
-                btt.style.display = 'none';
-            }
         });
 
         // Hide Loader
