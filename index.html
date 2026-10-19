@@ -1187,6 +1187,9 @@
  <strong>Reservation received.</strong> Our team will contact you shortly with an official quote, payment details, and dispatch scheduling.
  </div>
  <form id="reserveForm" onsubmit="submitReserve(event)">
+                    <input type="hidden" name="access_key" value="50bbc94f-b731-44d3-af19-a553257a2eba">
+                    <input type="hidden" name="subject" value="New MaskPure Unit Reservation - devdaloar@gmail.com">
+                    <input type="hidden" name="from_name" value="MaskPure Reservation System">
  <div class="form-group">
  <label for="r_name">Full Name *</label>
  <input type="text" id="r_name" name="name" required placeholder="Dr. Jane Smith">
@@ -1230,6 +1233,9 @@
  </div>
  
  <form id="contactForm" onsubmit="submitForm(event)">
+                    <input type="hidden" name="access_key" value="50bbc94f-b731-44d3-af19-a553257a2eba">
+                    <input type="hidden" name="subject" value="New Product Inquiry for MaskPure - devdaloar@gmail.com">
+                    <input type="hidden" name="from_name" value="MaskPure Contact Form">
  <div class="form-group">
  <label for="name">Full Name *</label>
  <input type="text" id="name" name="name" required placeholder="Dr. Jane Smith">
@@ -1330,27 +1336,74 @@
  }
 
 
- // Reserve Form Submit
- function submitReserve(event) {
- event.preventDefault();
- const successDiv = document.getElementById('reserveSuccessMessage');
- successDiv.style.display = 'block';
- document.getElementById('reserveForm').reset();
- successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
- }
+ // Reserve Form Submit via Web3Forms
+        async function submitReserve(event) {
+            event.preventDefault();
+            const form = document.getElementById('reserveForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
 
- // Contact Form Submit
- function submitForm(event) {
- event.preventDefault();
- const successDiv = document.getElementById('formSuccessMessage');
- successDiv.style.display = 'block';
- document.getElementById('contactForm').reset();
- setTimeout(() => {
- successDiv.style.display = 'none';
- }, 5000);
- }
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    const successDiv = document.getElementById('reserveSuccessMessage');
+                    successDiv.style.display = 'block';
+                    form.reset();
+                    successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    alert('Submission error: ' + (result.message || 'Please try again.'));
+                }
+            } catch (err) {
+                alert('Connection error. Please try again or contact us directly.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
 
- // Initializer
+        // Contact Form Submit via Web3Forms
+        async function submitForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('contactForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    const successDiv = document.getElementById('formSuccessMessage');
+                    successDiv.style.display = 'block';
+                    form.reset();
+                    successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => {
+                        successDiv.style.display = 'none';
+                    }, 6000);
+                } else {
+                    alert('Submission error: ' + (result.message || 'Please try again.'));
+                }
+            } catch (err) {
+                alert('Connection error. Please try again or contact us directly.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Initializer
  window.addEventListener('DOMContentLoaded', () => {
  // Apply fade-in classes to all sections
  document.querySelectorAll('section').forEach(sec => {
