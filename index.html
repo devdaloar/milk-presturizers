@@ -1195,8 +1195,12 @@
  <input type="text" id="r_name" name="name" required placeholder="Dr. Jane Smith">
  </div>
  <div class="form-group">
- <label for="r_contact">Contact Email or Phone Number *</label>
- <input type="text" id="r_contact" name="contact" required placeholder="email@hospital.org or +44 7000 000000">
+ <label for="r_email">Email Address *</label>
+ <input type="email" id="r_email" name="email" required placeholder="email@hospital.org">
+ </div>
+ <div class="form-group">
+ <label for="r_phone">Phone Number <span style="font-weight:400;color:#888;">(optional)</span></label>
+ <input type="tel" id="r_phone" name="phone" placeholder="+44 7000 000000">
  </div>
  <div class="form-group">
  <label for="r_org">Organisation or Hospital Trust <span style="font-weight:400;color:#888;">(optional)</span></label>
@@ -1212,7 +1216,7 @@
  </div>
  <div class="form-group">
  <label for="r_notes">Clinical Notes or Inquiries <span style="font-weight:400;color:#888;">(optional)</span></label>
- <textarea id="r_notes" name="notes" rows="4" placeholder="Institutional procurement details, delivery timelines, bottle sizes, questions..."></textarea>
+ <textarea id="r_notes" name="message" rows="4" placeholder="Institutional procurement details, delivery timelines, bottle sizes, questions..."></textarea>
  </div>
  <button type="submit" class="btn btn-navy" style="width:100%;">Submit Reservation Request</button>
  <p class="privacy-note">For bulk hospital acquisitions please <a href="#contact">contact us directly</a>. All institutional information is maintained under strict confidentiality.</p>
@@ -1346,10 +1350,17 @@
             submitBtn.disabled = true;
 
             const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
                 });
                 const result = await response.json();
                 if (result.success) {
@@ -1378,10 +1389,17 @@
             submitBtn.disabled = true;
 
             const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
                 });
                 const result = await response.json();
                 if (result.success) {
